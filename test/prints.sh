@@ -10,7 +10,6 @@ source ./utils/pretty-print.sh
 # error "this is an error message. it's all over."
 
 
-
 function processWithLog() {
     for i in 1 2 3 4; do
         info "getting number..."
@@ -19,5 +18,14 @@ function processWithLog() {
     done
 }
 
-processWithLog | grep "4"
+# processWithLog | grep --color=auto "4"
 # processWithLog | grep "🫐"
+
+info "running.."
+output=$(processWithLog | grep "4")
+
+info "calculating or something?"
+
+echo "$output"
+
+
