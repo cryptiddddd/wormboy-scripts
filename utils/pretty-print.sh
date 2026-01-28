@@ -4,14 +4,22 @@
 pretty fruit printing for user feedback.
 '
 
-info() { [ -z "$WB_SILENT" ] && [ ${WB_LOG_LV:-5} -ge 5 ] && echo -e "\e[1;34m🫐  $@\e[0m"; }
+exec 3>&1
 
-success() { [ -z "$WB_SILENT" ] && [ ${WB_LOG_LV:-5} -ge 5 ] && echo -e "\e[1;32m🥝 $@\e[0m"; }
+__base_log() {
+    if [ -z "$WB_SILENT" ] && [ ${WB_LOG_LV:-5} -ge $1 ]; then
+        echo -e "$2 $3\e[0m" >&3 3>&-
+    fi
+}
 
-debug() { [ -z "$WB_SILENT" ] && [ ${WB_LOG_LV:-5} -ge 4 ] && echo -e "\e[1;35m🍇  $@\e[0m"; }
+info() { __base_log 5 "\e[1;34m🫐 " "$@"; }
 
-warning() { [ -z "$WB_SILENT" ] && [ ${WB_LOG_LV:-5} -ge 3 ] && echo -e "\e[1;33m🍋 $@\e[0m"; }
+success() { __base_log 5 "\e[1;32m🥝" "$@"; }
 
-danger() { [ -z "$WB_SILENT" ] && [ ${WB_LOG_LV:-5} -ge 2 ] && echo -e "\e[1;33m🍊 $@\e[0m"; }
+debug() { __base_log 4 "\e[1;35m🍇 " "$@"; }
 
-error() { [ -z "$WB_SILENT" ] && [ ${WB_LOG_LV:-5} -ge 1 ] && echo -e "\e[1;31m🍓 $@\e[0m"; }
+warning() { __base_log 3 "\e[1;33m🍋" "$@"; }
+
+danger() { __base_log 2 "\e[1;33m🍊" "$@"; }
+
+error() { __base_log 1 "\e[1;31m🍓" "$@"; }

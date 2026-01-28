@@ -50,5 +50,5 @@ note: when installed, all scripts are concatenated together, eliminating the nee
 # TODOS
 
 - pretty-print
-    - [ ] add logging redirection so as to avoid stdout ?? 
+    - [x] add logging redirection so as to avoid stdout ?? 
     - [x] add level-based log-muting
