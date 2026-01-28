@@ -1,5 +1,18 @@
 #!/usr/bin/bash
 
+: '
+    proxy to notify-send, complete with notif sound playback.
+    parameters:
+        -a, --app:        appname
+        -i, --icon:       icon
+        -u, --urgency:    urgency level, "LOW", "NORMAL", or "CRITICAL"
+        -b, --body:       notification body text
+        -s, --sound:      sound file name, can be used multiple times.
+        -S, --soundpath:  base directory for sound files.
+
+    positional arguments:
+        used as title.
+'
 function worm-alert() {
     # set defaults
     app="app"

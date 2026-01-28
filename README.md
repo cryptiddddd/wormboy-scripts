@@ -41,10 +41,14 @@ utility functions are all in-progress.
 
 these tests exist simply for verifying and developing utilities and their use cases.
 
+note: when installed, all scripts are concatenated together, eliminating the need to import various inter-dependencies in this library. however, when testing, importing all dependencies in the single test script is required. 
+
+> example: when testing `alerts.sh`, you must also source `random.sh`, as i use a randomizing function in the worm-alert function.
+
 ---
 
 # TODOS
 
 - pretty-print
     - [ ] add logging redirection so as to avoid stdout ?? 
-    - [ ] add level-based log-muting
+    - [x] add level-based log-muting
