@@ -6,5 +6,8 @@ source $(dirname $0)/utils/pretty-print.sh
 source $(dirname $0)/utils/checks.sh
 rootcheck
 
+info "rendering and installing..."
 cat $(dirname $0)/utils/*.sh > $INSTALL_PATH
 chmod 554 "$INSTALL_PATH"
+
+success "scripts installed."
