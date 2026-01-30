@@ -24,6 +24,8 @@ function worm-alert() {
 
     sounds=()
 
+    notifier="notify-send"
+
     # parse args
     while [[ $# -gt 0 ]]; do
         case $1 in
@@ -48,6 +50,10 @@ function worm-alert() {
                 soundpath="$2"
                 shift;shift;;  
 
+            -n|--notifier)
+                notifier="$2"
+                shift;shift;;
+
             *)
                 POS_ARGS+=("$1")
                 shift;;
@@ -61,5 +67,9 @@ function worm-alert() {
 
     # play and notify.
     play -q $soundpath/$sound.oga &>/dev/null &
-    notify-send -u "$urgency" -i "$icon" -a "wormboy-$app" "${POS_ARGS[*]}" "$body"
+    $notifier -u "$urgency" -i "$icon" -a "wormboy-$app" "${POS_ARGS[*]}" "$body"
+}
+
+function root-worm-alert() {
+    worm-alert -n "root-notify-send" $@
 }

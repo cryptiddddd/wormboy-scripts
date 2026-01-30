@@ -52,3 +52,4 @@ note: when installed, all scripts are concatenated together, eliminating the nee
 - pretty-print
     - [x] add logging redirection so as to avoid stdout ?? 
     - [x] add level-based log-muting
+- [ ] list dependencies
