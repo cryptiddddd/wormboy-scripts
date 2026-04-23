@@ -62,14 +62,16 @@ function worm-alert() {
 
     # pick one of random sounds.
     if [ ${#sounds[@]} != 0 ]; then
+        # shellcheck disable=SC2086
+        # shellcheck disable=SC2048
         sound=$(pick-random ${sounds[*]})
     fi
 
     # play and notify.
-    play -q $soundpath/$sound.oga &>/dev/null &
+    play -q "$soundpath/$sound.oga" &>/dev/null &
     $notifier -u "$urgency" -i "$icon" -a "wormboy-$app" "${POS_ARGS[*]}" "$body"
 }
 
-function root-worm-alert() {
-    worm-alert -n "root-notify-send" $@
-}
+alias root-worm-alert="worm-alert -n \"root-notify-send\""
+
+export -f worm-alert

@@ -30,7 +30,7 @@ while [[ $# -gt 0 ]]; do
             ;;
         # arguments here.
         
-        -*|--**)
+        -*)
             error "flag '$1' is not recognized."
             exit 1
             ;;
