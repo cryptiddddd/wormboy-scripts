@@ -9,59 +9,46 @@ this also pays attention to whether or not you are currently plugged into power,
 source "/usr/local/lib/wormboy-utils"
 
 # define threshholds
-HIGH_THRESHOLD=95
-LOW_THRESHOLD=25
-CRIT_THRESHOLD=5
+LVLS=(
+    #  %level;title;msg;urgency
+    "5;death imminent;plug me in now pls D:;;critical"
+    "25;low battery;please plug into power;dialog-warning"
+    "95;battery full;consider unplugging;low;power-plug"
+)
 
 LEVEL=$(acpi -b | awk -F', ' '{print $2}' | tr -d '%,')
 POWER=$(acpi -b | grep -c 'Discharging') # 0 -> not charging, anything else -> charging
 
 notify="worm-alert -n root-notify-send -a battery"
 
-CRIT_TITLE="death imminent"
-CRIT_MSG="plug me in now pls D:"
-
-LOW_TITLE="low battery"
-LOW_MSG="please plug in charger"
-
-HIGH_TITLE="battery full"
-HIGH_MSG="consider unplugging"
-
 if [[ ! "$LEVEL" =~ ^[0-9]+$ ]]; then
-    error "FATAL Battery level could not be read properly."
+    critical "Battery level could not be read properly."
     exit 1
 fi
 
 info "Battery at $LEVEL%"
 
+# iterative checks
+for lvl in "${LVLS[@]}"; do
+    # defaults for optionals
+    urgency="normal"
 
-# begin checks
-if [ "$LEVEL" -le "$CRIT_THRESHOLD" ]; then
+    IFS=";" read -r -a arr <<< "${lvl}"
 
-    debug "Battery at critical level."
+    level="${arr[0]}"
+    title="${arr[1]}"
+    msg="${arr[2]}"
+    icon="${arr[3]}"
+    urgency="${arr[4]}"
 
-    # this check will be replaced by a check to the last alert time/percentage
-    if [ "$POWER" -ne 0 ]; then
-        info "Sending critical warning."
-        $notify -u "critical" "$CRIT_TITLE" -b "$CRIT_MSG" -s "phone-outgoing-busy" 
+    if { [ "$LEVEL" -le "$level" ] && [ "$level" -lt 50 ]; } || { [ "$LEVEL" -ge "$level" ] &&  [ "$level" -ge 50 ]; }; then
+        debug "Battery at critical level."
+
+        # this check will be replaced by a check to the last alert time/percentage
+        if [ "$POWER" -ne 0 ]; then
+            info "Sending warning."
+            $notify "$title" -b "$msg" -s "$icon" -u "$urgency" 
+        fi
     fi
+done
 
-elif [ "$LEVEL" -le "$LOW_THRESHOLD" ]; then
-
-
-    if [ "$POWER" -ne 0 ]; then
-        info "Sending low power warning."
-        $notify "$LOW_TITLE" -b "$LOW_MSG" -s "dialog-warning"
-    fi
-
-elif [ "$LEVEL" -ge "$HIGH_THRESHOLD" ]; then
-
-    if [ "$POWER" -eq 0 ]; then
-        info "Sending high battery notice."
-        $notify -u "low" "$HIGH_TITLE" -b "$HIGH_MSG" -s "power-plug"
-    fi
-
-else
-    info "No action necessary."
-
-fi
