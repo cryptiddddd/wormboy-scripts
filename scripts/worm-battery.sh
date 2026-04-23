@@ -17,60 +17,74 @@ RECORD="/tmp/last.wormbattery"
 # define threshholds
 LVLS=(
     #  %level;title;msg;urgency
-    "5;death imminent;plug me in now pls D:;critical"
-    "25;low battery;please plug into power;dialog-warning"
+    "5;death imminent;plug me in now pls D:;dialog-danger;critical;1"
+    "25;low battery;please plug into power;dialog-warning;low;1"
     "95;battery full;consider unplugging;power-plug;low"
 )
 
 # gather from system
-LEVEL=$(acpi -b | awk -F', ' '{print $2}' | tr -d '%,')
-POWER=$(acpi -b | grep -c 'Discharging') # 0 -> not charging, anything else -> charging
+BATTERY=$(acpi -b | awk -F', ' '{print $2}' | tr -d '%,')
 
+# 0 for false, 1 for true
+function isCharging() {
+    if [ "$(acpi -b | grep -c 'Discharging')" -gt 0 ]; then
+        echo 0
+    else
+        echo 1
+    fi
+} 
 
+# isolate condition for easy calling
+function checkLevelAgainst() {
+    if { [ "$BATTERY" -le "$1" ] && [ "$1" -lt 50 ]; } || { [ "$BATTERY" -ge "$1" ] &&  [ "$1" -ge 50 ]; }; then
+        echo 1
+    fi
+}
 
-
-if [[ ! "$LEVEL" =~ ^[0-9]+$ ]]; then
+# verify
+if [[ ! "$BATTERY" =~ ^[0-9]+$ ]]; then
     critical "Battery level could not be read properly."
     exit 1
 fi
 
-info "Battery at $LEVEL%"
+info "Battery at $BATTERY%"
 
-
-# isolate condition for easy calling
-checkLevelAgainst() {
-    if { [ "$LEVEL" -le "$1" ] && [ "$1" -lt 50 ]; } || { [ "$LEVEL" -ge "$1" ] &&  [ "$1" -ge 50 ]; }; then
-        echo true
-    fi
-}
 
 # iterative checks
 for lvl in "${LVLS[@]}"; do
+    IFS=";" read -r -a arr <<< "${lvl}"
+
     # defaults for optionals
     urgency="normal"
-
-    arr=()
-    IFS=";" read -r -a arr <<< "${lvl}"
 
     level="${arr[0]}"
     title="${arr[1]}"
     msg="${arr[2]}"
     icon="${arr[3]}"
     [ "${arr[4]}" ] && urgency="${arr[4]}"
+    checkPower="${arr[5]}"
 
     if [ "$(checkLevelAgainst "$level")" ]; then
-        # this check will be replaced by a check to the last alert time/percentage
-        if [ "$POWER" -ne 0 ]; then
-            info "Sending notification."
-            debug "level: $level"
-            debug "title: $title"
-            debug "msg: $msg"
-            debug "icon: $icon"
+        debug "Met threshold"
 
-            $notify "$title" -b "$msg" -s "$icon" -u "$urgency" 
-        fi
+        # if existing, check the last alert time/percentage: continue if it also raised alert.
+        [ -f "$RECORD" ] && [ "$(checkLevelAgainst "$(cat "$RECORD")")" ] && continue
+
+        # if this level wants us to check charging status, check that and continue
+        [ "$checkPower" ] && [ "$(isCharging)" -eq 1 ] && continue
+
+        info "Sending notification."
+        debug "battery: $BATTERY"
+        debug "level: $level"
+        debug "title: $title"
+        debug "msg: $msg"
+        debug "icon: $icon"
+        debug "urgency: $urgency"
+        debug "checkPower: $checkPower"
+
+        $notify "$title" -b "$msg" -s "$icon" -u "$urgency" 
     fi
 done
 
 # logging last check
-echo "$LEVEL" > "$RECORD"
+echo "$BATTERY" > "$RECORD"
