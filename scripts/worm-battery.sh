@@ -37,7 +37,10 @@ declare -i -r BATTERY
 if [[ ! "$BATTERY" =~ ^[0-9]+$ ]]; then
     critical "Battery level could not be read properly."
     exit 2
+else
+    log "Battery at $BATTERY%"
 fi
+
 
 ### functions
 
@@ -88,9 +91,7 @@ function checkPreviousCondition() {
 }
 
 
-
-log "Battery at $BATTERY%"
-
+### proc
 
 # iterative checks
 for lvl in "${LVLS[@]}"; do
@@ -121,7 +122,8 @@ for lvl in "${LVLS[@]}"; do
     fi
 done
 
-# logging for next cycle
+### logging
+# for next cycle
 
 if [ "$(isCharging)" ]; then
     touch "$CHARGE_RECORD"
