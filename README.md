@@ -57,5 +57,9 @@ note: when installed, all scripts are concatenated together, eliminating the nee
 - pretty-print
     - [x] add logging redirection so as to avoid stdout ?? 
     - [x] add level-based log-muting
-    - [ ] add tiers of tab indentations
-- [ ] list dependencies
+    - [x] add tiers of tab indentations
+- [ ] list dependencies in readme
+- [ ] add dependency check template
+- [x] upgrade testing to use [BATS](https://github.com/bats-core/bats-core)
+- [ ] 
+
