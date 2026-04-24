@@ -8,6 +8,11 @@ this also pays attention to whether or not you are currently plugged into power,
 # shellcheck disable=SC1091
 source "/usr/local/lib/wormboy-utils"
 
+if ! which acpi ; then
+    critical "Battery tool 'acpi' not installed."
+    exit 1
+fi
+
 # configure notification cmd, aka shortcut...
 notify="worm-alert -n root-notify-send -a battery"
 
@@ -26,6 +31,13 @@ readonly LVLS=(
 # gather from system
 BATTERY=$(acpi -b | awk -F', ' '{print $2}' | tr -d '%,')
 declare -i -r BATTERY
+
+
+# verify
+if [[ ! "$BATTERY" =~ ^[0-9]+$ ]]; then
+    critical "Battery level could not be read properly."
+    exit 2
+fi
 
 ### functions
 
@@ -76,11 +88,6 @@ function checkPreviousCondition() {
 }
 
 
-# verify
-if [[ ! "$BATTERY" =~ ^[0-9]+$ ]]; then
-    critical "Battery level could not be read properly."
-    exit 1
-fi
 
 log "Battery at $BATTERY%"
 
