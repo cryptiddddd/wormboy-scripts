@@ -14,14 +14,17 @@ where `await-all` will not exit until each child process is complete.
 pids=()
 
 function track() {
+    # shellcheck disable=SC2068
     $@ &
     pids+=("$!")
 }
 
 
 function await-all() {
+    # shellcheck disable=SC2048
     for pid in ${pids[*]}; do
-        [ '$@' ] && $@
-        wait $pid
+        # shellcheck disable=SC2068
+        [ "$@" ] && $@
+        wait "$pid"
     done
 }

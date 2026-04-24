@@ -15,6 +15,7 @@
 '
 function worm-alert() {
     # set defaults
+    args=()
     app="app"
     icon="info"
     urgency="normal"
@@ -55,7 +56,7 @@ function worm-alert() {
                 shift;shift;;
 
             *)
-                POS_ARGS+=("$1")
+                args+=("$1")
                 shift;;
         esac
     done
@@ -69,7 +70,7 @@ function worm-alert() {
 
     # play and notify.
     play -q "$soundpath/$sound.oga" &>/dev/null &
-    $notifier -u "$urgency" -i "$icon" -a "wormboy-$app" "${POS_ARGS[*]}" "$body"
+    $notifier -u "$urgency" -i "$icon" -a "wormboy-$app" "${args[*]}" "$body"
 }
 
 alias root-worm-alert="worm-alert -n \"root-notify-send\""

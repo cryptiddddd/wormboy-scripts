@@ -9,35 +9,40 @@ this repository is a collection of bash script helpers that i use regularly. it 
 by no means are these utility scripts complete or even generalized appropriately to more use cases than my own personal play.
 
 
-### directory
+## directory
 - [installation](#installation)
 - repo contents
+    - [scripts](#scripts)
     - [templates](#templates)
     - [utilities](#utilities)
     - [utility tests](#utility-tests)
 - [todos](#todos)
 
 
-# installation
+## installation
 
 execute the `install.sh` script with sudo permissions -- this compiles all bash files in the utility folder and throws it into your `/usr/local/lib/` directory. for now.
 
 
-# what's in the repo
+## what's in the repo
 
-## templates
+### scripts
+
+at the time of writing i have one single script, but over time i intend to round up a few scripts that are ready to install and use to either help your workflow or riced setup.
+
+### templates
 
 to start off, i have one simple template for creating new cli scripts. this makes it easier as you get into bash-scripting. at least for me, it contains my preferred method of argument parsing for the time being. 
 
 note that there is no consideration for stdin or stdout.
 
-## utilities
+### utilities
 
 these utility scripts are not meant to be utilized directly by a user, but to provide helper functions for other developers. for instance, `pretty-print.sh` provides colorful, mutable, levelled-logging. this is great use to me everywhere, as it provides consistent output across multiple clis.
 
 utility functions are all in-progress.
 
-## utility tests
+### utility tests
 
 these tests exist simply for verifying and developing utilities and their use cases.
 
@@ -47,9 +52,10 @@ note: when installed, all scripts are concatenated together, eliminating the nee
 
 ---
 
-# TODOS
+## TODOS
 
 - pretty-print
     - [x] add logging redirection so as to avoid stdout ?? 
     - [x] add level-based log-muting
+    - [ ] add tiers of tab indentations
 - [ ] list dependencies
