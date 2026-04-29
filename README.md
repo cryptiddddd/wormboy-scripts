@@ -23,6 +23,10 @@ by no means are these utility scripts complete or even generalized appropriately
 
 execute the `install.sh` script with sudo permissions -- this compiles all bash files in the utility folder and throws it into your `/usr/local/lib/` directory. for now.
 
+## development
+
+for development and testing, be sure to clone with `git clone --recurse-submodules <url>`, given the usage of BATS for testing.
+
 
 ## what's in the repo
 
