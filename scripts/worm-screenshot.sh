@@ -9,7 +9,7 @@ source "/usr/local/lib/wormboy-utils"
 
 
 function displayclipboard() {
-    info "displaying image"
+    log "displaying image"
     # xclip -o -selection -clipboard -t image/png | xviewer
     display <(xclip -o -t image/png -selection clipboard)
     # xclip -o -selection clipboard | feh
@@ -24,10 +24,14 @@ function showsuccess() {
     fi
 }
 
-maim -q -s -u | xclip -selection clipboard -t image/png -i
+function screenshot() {
+    maim -q -s -u | xclip -selection clipboard -t image/png -i
+    return "${PIPESTATUS[0]}"
+}
 
-if [[ ${PIPESTATUS[0]} -ne 0 ]] ; then
-    info "screenshot cancelled by user."
+
+if ! screenshot ; then
+    log "screenshot cancelled by user."
     exit 1
 else
     showsuccess
