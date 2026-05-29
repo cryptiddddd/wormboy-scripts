@@ -73,6 +73,8 @@ function worm-alert() {
     $notifier -u "$urgency" -i "$icon" -a "wormboy-$app" "${args[*]}" "$body"
 }
 
-alias root-worm-alert="worm-alert -n \"root-notify-send\""
+function root-worm-alert() {
+    worm-alert -n "root-notify-send" $@
+}
 
-export -f worm-alert
+export -f worm-alert root-worm-alert

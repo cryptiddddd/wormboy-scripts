@@ -39,7 +39,7 @@ function __base_log() {
     done
 
     # ensure logging is appropriate
-    { [ ! -z "$WB_SILENT" ] || (( WB_LOG_LV < level )) } && return 0
+    { [ ! -z "$WB_SILENT" ] || (( WB_LOG_LV < level )) ; } && return 0
 
     echo -e "$tabs""${args[*]}\e[0m" >&3 3>&-
 }
