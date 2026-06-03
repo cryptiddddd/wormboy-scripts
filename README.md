@@ -19,6 +19,19 @@ by no means are these utility scripts complete or even generalized appropriately
 - [todos](#todos)
 
 
+## dependencies
+
+**scripts**
+- `acpi`
+- `libnotify` ?
+- `maim`
+- `xclip`
+- `imagemagick`
+
+**expected builtins**
+- `awk`
+- `tr`
+
 ## installation
 
 execute the `install.sh` script with sudo permissions -- this compiles all bash files in the utility folder and throws it into your `/usr/local/lib/` directory. for now.

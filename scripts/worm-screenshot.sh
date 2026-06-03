@@ -29,7 +29,7 @@ function screenshot() {
     return "${PIPESTATUS[0]}"
 }
 
-
+ 
 if ! screenshot ; then
     log "screenshot cancelled by user."
     exit 1
