@@ -22,15 +22,17 @@ by no means are these utility scripts complete or even generalized appropriately
 ## dependencies
 
 **scripts**
-- `acpi`
-- `libnotify` ?
 - `maim`
 - `xclip`
 - `imagemagick`
+- https://lsferreira42.github.io/bash-ini-parser/ / https://github.com/lsferreira42/bash-ini-parser
+    - https://raw.githubusercontent.com/lsferreira42/bash-ini-parser/refs/heads/main/lib_ini.sh
 
 **expected builtins**
+- `acpi`
 - `awk`
 - `tr`
+- `libnotify` ?
 
 ## installation
 

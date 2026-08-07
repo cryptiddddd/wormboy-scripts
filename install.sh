@@ -15,7 +15,7 @@ rootcheck
 # compile/install utilities
 log "rendering and installing..."
 cat "$SRC_DIR"/utils/*.sh > $UTIL_INSTALL_PATH
-chmod 554 "$UTIL_INSTALL_PATH"
+chmod 555 "$UTIL_INSTALL_PATH"
 
 success "utility library installed."
 
@@ -24,6 +24,6 @@ success "utility library installed."
 
 log "installing scripts...."
 cp "$SRC_DIR"/scripts/* "$SCRIPT_INSTALL_DIR"
-chmod 554 "$SCRIPT_INSTALL_DIR"/worm-*.sh
+chmod 555 "$SCRIPT_INSTALL_DIR"/worm-*.sh
 success "script library installed"
 
