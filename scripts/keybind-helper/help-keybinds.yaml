@@ -1,0 +1,39 @@
+categories:
+  - title: Navigation
+    entries:
+      - 
+      - $mod&#x0a;\tHold to click-and-drag reorganize windows.&#x0a;
+      - $mod + [0..9]&#x0a;\tSwap to workspace.&#x0a;
+      - $mod + Shift + [0..9]&#x0a;\tMove current window to workspace.&#x0a;
+      - $mod + Ctrl + [0..9]&#x0a;\tMove current window to workspace, and follow.&#x0a;
+      - $mod + J&#x0a;\tMove workspace to left output.&#x0a;
+      - $mod + K&#x0a;\tMove workspace to right output.&#x0a;
+      - $mod + [↑↓←→]&#x0a;\tMove focus to neighboring window.&#x0a;
+      - $mod + Space&#x0a;\tToggle focus to floating.&#x0a;
+      - $mod + R&#x0a;\tMove to resizing mode. (↓→ to enlarge, ↑← to shrink)&#x0a;
+      - $mod + F&#x0a;\tToggle window fullscreen.&#x0a;
+      - $mod + Shift + Space&#x0a;\tToggle window floating.&#x0a;
+      - $mod + Minus&#x0a;\tShow scratchpad.&#x0a;
+      - $mod + Shift + Minus&#x0a;\tMove window to scratchpad.&#x0a;
+      - $mod + Shift + Q&#x0a;\tKill window.&#x0a;
+  - title: Programs
+    entries:
+      - 
+      - $mod + D&#x0a;\tOpen app menu.&#x0a;
+      - $mod + Colon&#x0a;\tOpen emoji menu.&#x0a;
+      - $mod + Apostrophe&#x0a;\tOpen clipboard menu.&#x0a;
+      - $mod + Return&#x0a;\tOpen terminal.&#x0a;
+      - $mod + T&#x0a;\tOpen tray.&#x0a;
+      - $mod + Shift + S&#x0a;\tOpen screenshot snip tool.&#x0a;
+      - $mod + Plus&#x0a;\tOpen file browser.&#x0a;
+      - $mod + Slash&#x0a;\tOpen this dialog.&#x0a;
+  - title: i3
+    entries:
+      - 
+      - $mod + Shift + C&#x0a;\tReload i3wm configuration.&#x0a;
+      - $mod + Shift + R&#x0a;\tRestart i3wm in place.&#x0a;
+  - title: Macros
+    entries:
+      - 
+      - Pause&#x0a;\tRun macro command.&#x0a;
+      - Shift + Pause&#x0a;\tReset macro command to default.&#x0a;
