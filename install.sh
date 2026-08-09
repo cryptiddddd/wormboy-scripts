@@ -23,7 +23,7 @@ success "utility library installed."
 # install scripts
 
 log "installing scripts...."
-cp "$SRC_DIR"/scripts/* "$SCRIPT_INSTALL_DIR"
+cp "$SRC_DIR"/scripts/*.sh "$SCRIPT_INSTALL_DIR"
 chmod 555 "$SCRIPT_INSTALL_DIR"/worm-*.sh
 success "script library installed"
 

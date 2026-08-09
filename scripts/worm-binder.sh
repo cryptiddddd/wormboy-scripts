@@ -17,8 +17,7 @@ CACHE_PATH="/tmp/worm/$USER/binder-exec" # this will hold the default after firs
 help() {
     cat << EOL
 ${NAME} ${VERSION}
-This tool caches a certain script or command, for easy 
-re-use in spam-like testing scenarios.
+This tool caches a certain script or command as a macro.
 
 It is advised to bind this tool's -r and -x commands to 
 dedicated keys via your WM, for convenience.
@@ -27,17 +26,17 @@ USAGE: ./${NAME} [OPTIONS...]
 
 ACTIONS:
     --help, -h: View this help menu.
-
-OPTIONS:
+    --show-config, -c: Shows the location and parsed values of the current configuration file.
+    --show-command, -g: Shows the currentl configured command.
     --clear, -x: Un-binds the current command, and returns to the default.
     --default, -d: Sets a new default (saved to configuration file).
-    --show-config, -c: Shows the location and parsed values of the current configuration file.
     --run, -r: Runs the currently binded command.
 
 ROADMAP:
     - Add support for multiple "slots".
     - Add support for custom hashbangs.
     - Add support for error reporting on failed exit status (rofi?)
+    - Wrapper/proxy tool to manage commands 
 
 Crane Presents... ${NAME}, ${VERSION}
 EOL
@@ -59,6 +58,20 @@ execute() {
 ## loads configuration to environment
 load-config() {
     ini_to_env "$CONF_PATH" "CFG"
+}
+
+
+## prints the currently configured macro command
+print-it() {
+    label="$1"
+    path="$2"
+    callback="$3"
+    echo "current $label path: $path"
+    if [[ -f "$path" ]]; then
+        $callback
+    else
+        echo "file does not exist."
+    fi
 }
 
 
@@ -102,7 +115,12 @@ while [[ $# -gt 0 ]]; do
             ;;
         
         -c|--show-config)
-            print-config
+            print-it "config" $CONF_PATH "ini_get_all \"$CONF_PATH\" binder"
+            shift
+            ;;
+
+        -g|--show-command)
+            print-it "cache" $CACHE_PATH "cat $CACHE_PATH"
             shift
             ;;
 
