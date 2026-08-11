@@ -2,6 +2,7 @@
 
 dir=$(dirname $0)
 
+mkdir -p /tmp/worm/$USER
 echo "0" > /tmp/worm/$USER/help-page
 
 # echos all the modi parameters yay
